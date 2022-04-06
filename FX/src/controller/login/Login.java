@@ -13,6 +13,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
+import javafx.util.Duration;
 
 public class Login implements Initializable {
 	
@@ -43,6 +44,14 @@ public class Login implements Initializable {
 			// 4. 미디어플레이어 시작
 			mediaPlayer.play();
 			
+			mediaPlayer.setOnEndOfMedia(new Runnable() {
+				
+				@Override
+				public void run() {
+					mediaPlayer.seek(Duration.ZERO);
+					
+				}
+			});
 			loadpage("/view/login/loginpane.fxml");
 			
 			

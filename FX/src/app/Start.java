@@ -11,11 +11,9 @@ public class Start extends Application {
 
 	@Override
 	public void start(Stage stage ) throws Exception {
-		
-		
+	
 		// 5. 컨테이너 불러오기
-		Parent parent = 
-				FXMLLoader.load( getClass().getResource("/view/main.fxml"));
+		Parent parent = FXMLLoader.load( getClass().getResource("/view/main.fxml"));
 																//  /패키지명(폴더)/파일명.확장자
 		// 6. 씬 객체 -> 컨테이너 
 		Scene scene = new Scene(parent);

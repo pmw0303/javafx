@@ -172,5 +172,18 @@ public class MemberDao {
 		}
 		return false;
 	}
-	// 회원 수정
+	// 회원 수정 [회원번호, 이메일, 주소 인수로 받아서 수정하기]
+	public boolean update(int mnum, String email, String address) {
+		try {
+			String sql = "update from meber set memail=?, maddress=? where mnum=?";
+			ps = con.prepareStatement(sql);
+			ps.setString(1, email); ps.setString(2, address); ps.setInt(3, mnum);
+			ps.executeUpdate();
+			return true;
+		} catch (Exception e) {
+			System.out.println("SQL 오류 " + e);
+		}
+		return false;
+	}
+	
 }

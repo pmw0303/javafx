@@ -9,12 +9,15 @@ import controller.Main;
 import controller.login.Login;
 import dao.MemberDao;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
 
 public class Home implements Initializable{
 
@@ -26,6 +29,30 @@ public class Home implements Initializable{
 	private Label lbllogout;
 	@FXML
 	private Label lbldelete;
+	@FXML
+	private Label lblinfo;
+	@FXML
+	private Label lblupdate;
+	@FXML
+	private BorderPane borderpane;
+	
+	@FXML
+	public void accinfo(MouseEvent e) { 
+		loadpage("/view/home/info.fxml");
+	}
+	@FXML
+	public void accupdate(MouseEvent e) { 
+		loadpage("/view/home/update.fxml");
+	}
+	
+	public void loadpage(String page) {
+		try {
+			Parent parent = FXMLLoader.load(getClass().getResource(page));
+			borderpane.setCenter(parent);
+		} catch (Exception e) {
+			System.out.println("Load ¿À·ù : " + e);
+		}
+	}
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
