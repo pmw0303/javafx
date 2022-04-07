@@ -41,12 +41,39 @@ public class Home implements Initializable {
 	@FXML
 	private Label lblboard;
 	@FXML
-	private Label lblproduct;	
+	private Label lblproduct1;
+	@FXML
+	private Label lblproduct2;
+	@FXML
+	private Label lblproduct3;
+	@FXML
+	private Label lblproduct4;
 	@FXML
 	private BorderPane borderpane;
 	
-	@FXML// 제품 레이블을 클릭했을때 이벤트
-	public void accproduct( MouseEvent e ) { loadpage("/view/product/product.fxml"); }
+	public static String category;
+	
+	@FXML// 남성의류 레이블을 클릭했을때 이벤트
+	public void accproduct1( MouseEvent e ) {
+		loadpage("/view/product/product.fxml"); 
+		category="남성의류";
+	}
+	@FXML// 여성의류 레이블을 클릭했을때 이벤트
+	public void accproduct2( MouseEvent e ) {
+		loadpage("/view/product/product.fxml"); 
+		category="여성의류";
+	}
+	@FXML// 게임기기 레이블을 클릭했을때 이벤트
+	public void accproduct3( MouseEvent e ) {
+		loadpage("/view/product/product.fxml"); 
+		category="게임기기";
+	}
+	@FXML// 생활용품 레이블을 클릭했을때 이벤트
+	public void accproduct4( MouseEvent e ) {
+		loadpage("/view/product/product.fxml"); 
+		category="생활용품";
+	}
+	
 	@FXML // 자유게시 레이블 클릭했을 때
 	public void accboard(MouseEvent e) {loadpage("/view/board/board.fxml");}
 	
@@ -68,6 +95,7 @@ public class Home implements Initializable {
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		lblloginid.setText( Login.member.getMid()+" 님" );
 		lblpoint.setText("포인트 : "+ Login.member.getMpoint()+" 점");
+		loadpage("/view/chatting.fxml");
 	}
 	
 	@FXML // 로그아웃 레이블를 클릭했을때 이벤트

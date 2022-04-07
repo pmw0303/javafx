@@ -21,7 +21,7 @@ public class Start extends Application {
 		Scene scene = new Scene(parent);
 		// 7. 씬 -> 스테이지 
 		stage.setScene(scene);
-		// 3. 스테이지로고 설정 
+		// 3. 스테이지로고 설정 a
 			Image image = new Image("/img/loginlogo.png"); // 1. 이미지 불러오기 [ 이미지 객체화 ]  
 			// Image image2 = new Image("C:/Users/505-t/git/ezen_web_2022_A/java2/src/img/stagelogo.jpeg"); // 1. 이미지 불러오기 [ 이미지 객체화 ]  
 				// 절대경로  vs 상대경로 

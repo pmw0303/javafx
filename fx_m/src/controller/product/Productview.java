@@ -54,6 +54,37 @@ public class Productview implements Initializable{
     
     @FXML
     private Label txtpprice;
+    
+    @FXML
+    private Button btnactivation;
+
+    @FXML
+    void activation(ActionEvent event) {
+    	if(btnactivation.getText().equals("거래중")) {
+    		// 컨트롤 값 변경
+    		txtpactivation.setText("상태 : 거래중"); 
+    		btnactivation.setText("판매완료");
+    		// DB 값 변경
+    		ProductDao.productDao.activation(Productcontrol.select.getPnum());
+    		// 선택된 제품의 상태 변경
+    		Productcontrol.select.setPactivation(2);
+    		return;
+    	}
+    	if(btnactivation.getText().equals("판매완료")) {
+    		txtpactivation.setText("상태 : 판매완료"); 
+    		btnactivation.setText("판매중");
+    		ProductDao.productDao.activation(Productcontrol.select.getPnum());
+    		Productcontrol.select.setPactivation(3);
+    		return;
+    	}
+    	if(btnactivation.getText().equals("판매중")) {
+    		txtpactivation.setText("상태 : 판매중"); 
+    		btnactivation.setText("거래중");
+    		ProductDao.productDao.activation(Productcontrol.select.getPnum());
+    		Productcontrol.select.setPactivation(1);
+    		return;
+    	}
+    }
 
 
     @FXML
@@ -89,9 +120,15 @@ public class Productview implements Initializable{
     	DecimalFormat df = new DecimalFormat("가격 : #,##0원");
     	txtpprice.setText(df.format(product.getPprice()));
     	
-    	if(product.getPactivation() ==1 ) { txtpactivation.setText("상태 : 판매중");}
-    	if(product.getPactivation() ==2 ) { txtpactivation.setText("상태 : 예약중"); }
-    	if(product.getPactivation() ==3 ) { txtpactivation.setText("상태 : 판매완료"); }
+    	if(product.getPactivation() ==1 ) { 
+    		txtpactivation.setText("상태 : 판매중"); btnactivation.setText("거래중");
+    		}
+    	if(product.getPactivation() ==2 ) { 
+    		txtpactivation.setText("상태 : 예약중"); btnactivation.setText("판매완료");
+    		}
+    	if(product.getPactivation() ==3 ) { 
+    		txtpactivation.setText("상태 : 판매완료"); btnactivation.setText("판매중");
+    		}
     	txtpdate.setText("제품 등록일 : " + product.getPdate());
     	
     	// 회원번호를 이용해 id 찾기

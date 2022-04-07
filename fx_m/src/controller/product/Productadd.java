@@ -68,6 +68,7 @@ public class Productadd implements Initializable{
 
     @FXML
     private Label txtpath;
+    
 
     @FXML
     void add(ActionEvent event) {

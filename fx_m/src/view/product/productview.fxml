@@ -42,11 +42,7 @@
             <Font size="16.0" />
          </font>
       </Label>
-      <Label fx:id="txtpactivation" layoutX="42.0" layoutY="133.0" prefHeight="15.0" prefWidth="134.0" text="제품상태 : ">
-         <font>
-            <Font size="16.0" />
-         </font>
-      </Label>
+      <Label fx:id="txtpactivation" layoutX="758.0" layoutY="165.0" prefHeight="15.0" prefWidth="134.0" text="제품상태 : " />
       <Label fx:id="txtpdate" layoutX="474.0" layoutY="194.0" prefHeight="15.0" prefWidth="256.0" text="등록일 :" />
       <Label fx:id="txtmid" layoutX="758.0" layoutY="194.0" prefHeight="15.0" prefWidth="144.0" text="회원 :" />
       <TableView layoutX="40.0" layoutY="600.0" prefHeight="100.0" prefWidth="870.0">
@@ -55,5 +51,10 @@
           <TableColumn prefWidth="75.0" text="C2" />
         </columns>
       </TableView>
+      <Button fx:id="btnactivation" layoutX="758.0" layoutY="110.0" mnemonicParsing="false" onAction="#activation" prefHeight="38.0" prefWidth="134.0" style="-fx-background-color: #0873ff;" text="판매완료" textFill="WHITE">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

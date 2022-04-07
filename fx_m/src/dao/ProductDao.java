@@ -23,7 +23,7 @@ public class ProductDao {
 			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/javafx?serverTimezone=UTC",
 					"root","1234"); // 2. DB 주소 연결 
 		}
-		catch(Exception e ) { System.out.println( "[DB 연동 오류]"+e  ); }
+		catch(Exception e ) { System.out.println( "[product DB 연동 오류]"+e  ); }
 	}
 	
 	// 제품 등록
@@ -45,12 +45,21 @@ public class ProductDao {
 		}
 		return false;
 	}
-	// 모든 제품 출력 [tableview X / ArrayList O]
-	public ArrayList<Product> list(){
-		ArrayList<Product> productlist = new ArrayList<>();
-		try {
-			String sql = "select *from product";
-			ps = con.prepareStatement(sql);
+	// 2. 모든 제품 출력 [ tableview 사용x -> arraylist 사용o ] 
+		public ArrayList<Product> list( String category , String search  ){
+			ArrayList<Product> productlist = new ArrayList<>(); // 리스트 선언 	
+			try {
+				String sql = null;
+				if( search == null ) { // 검색이 없을경우
+					sql  = "select * from product where pcategory = ? order by pnum desc";	// SQL 작성
+					ps = con.prepareStatement(sql);			// SQL 연결 
+					ps.setString( 1 , category );
+				}else { // 검색이 있을경우										//  필드명 = 값 [ = 비교연산자 ]  //  필드명 Like '%값%' [ 값이 포함된 ]
+					sql  = "select * from product where pcategory = ? and pname like '%"+search+"%' order by pnum desc";	// SQL 작성
+					ps = con.prepareStatement(sql);			// SQL 연결 
+					ps.setString( 1 , category );
+					// ps.setString( 2 , search ); SQL 문자열에 ? 대신에 직접 변수를 넣었기 때문에 생략합니다.~
+				}
 			rs = ps.executeQuery();
 			
 			while(rs.next()) {
@@ -68,7 +77,7 @@ public class ProductDao {
 			}
 			return productlist;
 		} catch (Exception e) {
-			System.out.println( "[SQL 오류]"+e  );
+			System.out.println( "[p select SQL 오류]"+e  );
 		}
 		return null; // 실패시 null 반환
 	}
@@ -85,7 +94,7 @@ public class ProductDao {
 			ps.executeUpdate();			
 			return true;
 		} catch (Exception e) {
-			System.out.println( "[SQL 오류]"+e  );
+			System.out.println( "[p delete SQL 오류]"+e  );
 		}
 		return false;
 	}
@@ -103,9 +112,37 @@ public class ProductDao {
 			ps.setInt( 6 , product.getPnum() );
 			ps.executeUpdate();
 			return true;
-		}catch(Exception e ) { System.out.println( "[SQL 오류]"+e  ); }
+		}catch(Exception e ) { System.out.println( "[p update SQL 오류]"+e  ); }
+		return false;		
+	}
+	
+	// 상태 변경
+	
+	public boolean activation(int pnum) {
+		// 현재 재품 상태
+		try {
+			String sql = "select pactivation from product where pnum=?";
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, pnum);
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				String upsql = null;
+				if(rs.getInt(1)==1) {
+					upsql = "update product set pactivation=2 where pnum=?";
+				}else if(rs.getInt(1)==2) {
+					upsql = "update product set pactivation=3 where pnum=?";
+				}else if(rs.getInt(1)==3) {
+					upsql = "update product set pactivation=1 where pnum=?";
+				}
+				ps = con.prepareStatement(upsql);
+				ps.setInt(1, pnum);
+				ps.executeUpdate();
+				return true;
+			}
+		} catch (Exception e) {
+			System.out.println( "[p activation SQL 오류]"+e  );
+		}
 		return false;
-		
 	}
 	
 	
