@@ -9,6 +9,8 @@ import java.util.Vector;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import controller.Server.Client;
+
 
 public class Server{	// fxml 사용하지 않는 클래스 [ 서버 컨트롤 사용 ] 
 	
@@ -29,8 +31,9 @@ public class Server{	// fxml 사용하지 않는 클래스 [ 서버 컨트롤 사용 ]
 				@Override
 				public void run() { // 추상메소드 구현 
 					// 계속적으로 메시지 받는 상태 
-					try {
-						while(true) {
+					
+					while(true) {
+						try {
 							InputStream inputStream = socket.getInputStream(); // 1. 입력스트림 
 							byte[] bytes = new byte[1000]; 	// 2. 바이트 배열 선언 [ 스트림은 바이트단위 이기 때문에 ]
 							inputStream.read( bytes ); 		// 3. 입력스트림으로 바이트 읽어오기 
@@ -39,11 +42,13 @@ public class Server{	// fxml 사용하지 않는 클래스 [ 서버 컨트롤 사용 ]
 							for( Client client   : clientlist ) {
 								client.send( msg ); // 받은 메시지를 서버에 접속된[ clientlist ] 모든 클라이언트에게 메시지 보내기
 							}
+					
+						}catch( Exception e ) { 
+							serverstop();
+							System.out.println("서버가 메시지 받기 실패:"+e); 
+							break;
 						}
-					}catch( Exception e ) { 
-						serverstop();
-						System.out.println("서버가 메시지 받기 실패:"+e); 
-						}
+					}
 					
 				}
 			}; // 멀티스레드 구현 끝 
@@ -117,7 +122,7 @@ public class Server{	// fxml 사용하지 않는 클래스 [ 서버 컨트롤 사용 ]
 	    	// 3. 스레드풀 닫기
 	    	threadpool.shutdown();
     	}catch( Exception e ) {
-    		serverstop();
+    		
     		System.out.println("serverstop 오류 " + e);
     	}
     }

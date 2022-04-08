@@ -127,10 +127,7 @@ public class RoomDao {
 	// 채팅방 삭제 [조건 : 채팅방 접속 인원 0 이면 삭제]
 	public boolean roomdelete(int ronum) {
 		
-		// 해당 방번호로 roomlive 검색했을 때 
-			// 존재하면 삭제 X
-			// 존재하지 않으면 삭제 O
-		String sql = "select *from roomlive where ronum=?";
+		String sql = "select * from roomlive where ronum =?";
 		try {
 			ps = con.prepareStatement(sql);
 			ps.setInt( 1 , ronum);
@@ -144,9 +141,7 @@ public class RoomDao {
 				ps.executeUpdate();
 				return true; // 접속 명단이 없는 방 삭제 성공 
 			}
-		} catch (Exception e) {
-			System.out.println("roomdelete 오류 " + e);
-		}
+		}catch(Exception e ) { System.out.println( "[SQL 오류]"+e  ); }
 		return false;
 	}
 	

@@ -128,7 +128,9 @@ public class Chatting implements Initializable {
     				socket = new Socket( ip , port ); // 서버의 ip와 포트번호 넣어주기 [ 서버와 연결 ]
     				send( Login.member.getMid()+"님 입장했습니다\n"); // 접속과 동시에 입장메시지 보내기 
     				receive(); // 접속과 동시에 받기 메소드는 무한루프
-    			}catch(Exception e ) { System.out.println( "clientstart 오류 " + e );}
+    			}catch(Exception e ) { 
+    				clientstop(); // 클라이언트 종료 메소드
+    				System.out.println( "clientstart 오류 " + e );}
     		};
     	};// 멀티스레드 구현 끝
     	thread.start(); // 멀티스레드 실행
@@ -161,19 +163,22 @@ public class Chatting implements Initializable {
     }
     // 5. 서버에게 메시지 받기 메소드 
     public void receive() {
-    	try {
-	    	while(true) {
-	    		InputStream inputStream = socket.getInputStream(); // 1. 입력 스트림
-	    		byte[] bytes = new byte[1000]; 	// 2. 바이트배열 선언 
-	    		inputStream.read(bytes);		// 3. 읽어오기 
-	    		String msg = new String(bytes);	// 4. 바이트열 -> 문자열 변환
-	    		txtcontent.appendText(msg); 	// 4. 받은 문자열을 메시지창에 띄우기 
-	    	}
-    	}catch( Exception e ) { 
-    		clientstop();
-    		System.out.println( "receive 오류 "+e );
-    		}
-    }
+
+		while (true) {
+			try {
+				InputStream inputStream = socket.getInputStream(); // 1. 입력 스트림
+				byte[] bytes = new byte[1000]; // 2. 바이트배열 선언
+				inputStream.read(bytes); // 3. 읽어오기
+				String msg = new String(bytes); // 4. 바이트열 -> 문자열 변환
+				txtcontent.appendText(msg); // 4. 받은 문자열을 메시지창에 띄우기
+
+			} catch (Exception e) {
+				clientstop();
+				System.out.println("receive 오류 " + e);
+				break;
+			}
+		}
+	}
     
     
     public void midshow() {
@@ -215,7 +220,7 @@ public class Chatting implements Initializable {
     						Login.member.getMid() );
     			// db처리
     			RoomDao.roomDao.addroomlive(roomlive);
-    			midshow();
+    			
     			
     		txtcontent.appendText("---[채팅방 입장]---\n");
     		btnconnect.setText("채팅방 나가기");
@@ -271,10 +276,24 @@ public class Chatting implements Initializable {
     	btnsend.setDisable(true); 		// 전송버튼 사용금지
     	btnconnect.setDisable(true); 	// 입장버튼 사용금지
     	txtmidlist.setDisable(true);  	// 방접속회원 목록 사용금지 
-    	show();
+    	
+    	Thread thread = new Thread() { // 채팅방 목록 실시간 화면 처리
+			@Override
+			public void run() {
+				while( true ) { 
+					try {
+						show();
+						Thread.sleep(1000);
+					}catch( Exception e ) {} 
+				}
+			}
+		}; 
+		thread.start();
+    	
     }
+  }
 	
-}
+
 
 
 
