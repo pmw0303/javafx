@@ -57,7 +57,7 @@ public class Chatting implements Initializable {
     
   
     public Server server ;    // 서버소켓 생성  [ 모든 메소드에서 사용 ] 
-    public Room selectroom;   // 테이블뷰에서 선택된 방객체
+    public static Room selectroom;   // 테이블뷰에서 선택된 방객체
     
     public void show() {
     	// 1. DB에서 모든 방 목록 가져오기
@@ -128,13 +128,19 @@ public class Chatting implements Initializable {
     				socket = new Socket( ip , port ); // 서버의 ip와 포트번호 넣어주기 [ 서버와 연결 ]
     				send( Login.member.getMid()+"님 입장했습니다\n"); // 접속과 동시에 입장메시지 보내기 
     				receive(); // 접속과 동시에 받기 메소드는 무한루프
-    			}catch(Exception e ) { System.out.println( e );}
+    			}catch(Exception e ) { System.out.println( "clientstart 오류 " + e );}
     		};
     	};// 멀티스레드 구현 끝
     	thread.start(); // 멀티스레드 실행
     }
     // 3. 클라이언트 종료 메소드 
-    public void clientstop() {  try{ socket.close(); }catch(Exception e ) { System.out.println( e );} }
+    public void clientstop() {  
+    	try{ 
+    		socket.close(); 
+    		}catch(Exception e ) { 
+    			System.out.println( e );
+    			} 
+    	}
     
     // 4. 서버에게 메시지 보내기 메소드 
     public void send( String msg ) {
@@ -145,7 +151,10 @@ public class Chatting implements Initializable {
     				OutputStream outputStream = socket.getOutputStream(); // 1. 출력 스트림
     				outputStream.write( msg.getBytes() ); // 2. 내보내기
     				outputStream.flush(); // 3. 스트림 초기화 [ 스트림 내 바이트 지우기 ]
-    			}catch( Exception e ) { System.out.println( e );} 
+    			}catch( Exception e ) {
+    				clientstop();
+    				System.out.println( "clientstop 오류 "+e );
+    				} 
     		}
     	};// 멀티스레드 구현 끝 
     	thread.start();
@@ -160,7 +169,10 @@ public class Chatting implements Initializable {
 	    		String msg = new String(bytes);	// 4. 바이트열 -> 문자열 변환
 	    		txtcontent.appendText(msg); 	// 4. 받은 문자열을 메시지창에 띄우기 
 	    	}
-    	}catch( Exception e ) { System.out.println( e );}
+    	}catch( Exception e ) { 
+    		clientstop();
+    		System.out.println( "receive 오류 "+e );
+    		}
     }
     
     
@@ -213,7 +225,11 @@ public class Chatting implements Initializable {
         	txtcontent.setDisable(false); 	// 채팅창 목록 사용가능
         	btnsend.setDisable(false); 		// 전송버튼 사용가능
         	txtmsg.requestFocus();  		// 채팅입력창으로 포커스[커서] 이동
-    		
+        	
+        	txtroomname.setDisable(true);
+        	btnadd.setDisable(true);
+        	roomtable.setDisable(true);
+        	
     	}else {
     		clientstop(); // 클라이언트 종료 메소드 
     		
@@ -224,6 +240,25 @@ public class Chatting implements Initializable {
         	txtmsg.setDisable(true); 		// 채팅입력창 사용금지 
         	txtcontent.setDisable(true); 	// 채팅창 목록 사용금지
         	btnsend.setDisable(true); 		// 전송버튼 사용금지
+        	
+        	txtroomname.setDisable(false); // 채팅방이름 
+        	btnadd.setDisable(false); // 방생성번호
+        	roomtable.setDisable(false); // 방목록
+        	
+        	// 방 접속 명단에서 제외 하기
+        	RoomDao.roomDao.roomlivedelete(
+        			Login.member.getMid());
+        	// 접속 명단 0이면 방 삭제
+        		//방이 삭제되면서 서버소켓 종료
+        	boolean result = RoomDao.roomDao.roomlivedelete(Login.member.getMid());
+        	if(result) {
+        		server.serverstop();
+        	}
+        	// *테이블뷰에서 선택된 방 객체 초기화
+        	selectroom = null;
+        	// *선택된 방 레이블 초기화
+        	lblselect.setText("현재 선택된 방 : ");
+        	show();
     	}
     }
 
