@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-import view.Member;
+import dto.Member;
 
 public class MemberDao { // DB Á¢±Ù°´Ã¼
 	
