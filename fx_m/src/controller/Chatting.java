@@ -11,7 +11,6 @@ import controller.login.Login;
 import dao.RoomDao;
 import dto.Room;
 import dto.Roomlive;
-import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -255,7 +254,10 @@ public class Chatting implements Initializable {
         			Login.member.getMid());
         	// 접속 명단 0이면 방 삭제
         		//방이 삭제되면서 서버소켓 종료
-        	boolean result = RoomDao.roomDao.roomlivedelete(Login.member.getMid());
+        	boolean result = RoomDao.roomDao.roomdelete(  
+        			selectroom.getRonum()
+        			);
+        	System.out.println( result );
         	if(result) {
         		server.serverstop();
         	}

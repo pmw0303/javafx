@@ -16,9 +16,9 @@
             <Image url="@/img/loginlogo.png" />
          </image>
       </ImageView>
-      <Text layoutX="215.0" layoutY="199.0" strokeType="OUTSIDE" strokeWidth="0.0" text="안산 지역 중고거래" wrappingWidth="311.12109375">
+      <Text layoutX="215.0" layoutY="199.0" strokeType="OUTSIDE" strokeWidth="0.0" text="안산 지역 중고 거래" wrappingWidth="311.12109375">
          <font>
-            <Font name="Yj BACDOO Bold" size="30.0" />
+            <Font name="System Bold" size="30.0" />
          </font>
       </Text>
       <BorderPane fx:id="borderpane" layoutX="146.0" layoutY="205.0" prefHeight="500.0" prefWidth="400.0" />

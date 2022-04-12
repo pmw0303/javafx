@@ -1,10 +1,19 @@
 package dao;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeMap;
 
+import javax.print.DocFlavor.STRING;
+
+import dto.Loginlog;
 import dto.Member;
 
 public class MemberDao { // DB 접근객체
@@ -189,8 +198,159 @@ public class MemberDao { // DB 접근객체
 		}catch (Exception e) { System.out.println( "[SQL 오류]"+e  ); }
 		return null;
 	}
-}
+	
+	// 전체 회원 수 반환
+	public int membertotal() {
+		String sql = "select count(*) from member";
+		try {
+			ps = con.prepareStatement(sql);
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				return rs.getInt(1);
+			}
+		} catch (Exception e) {
+			
+		}
+		return 0;
+	}
+	
+	 // 전체 개수 반환
+	// 9. (인수 : 테이블명)의 레코드 전체 개수 반환
+		public int counttotal( String 테이블명 ) {
+			String sql = "select count(*) from "+테이블명;
+			try {
+				ps = con.prepareStatement(sql);
+				rs = ps.executeQuery();
+				if( rs.next() ) {
+					return rs.getInt( 1 );
+				}
+			}catch( Exception e ) {}
+			return 0;
+		}
+	
+	// 10. ( 인수 : 테이블명 , 날짜필드명 )의 날짜별 레코드 전체 개수 반환
+		public Map<String, Integer> datetotal( String 테이블명 , String 날짜필드명 ){
+			Map<String, Integer> map  = new TreeMap<>();
+			
+			String sql = "select substring_index( "+날짜필드명+" , ' ' , 1 )  , count(*)"
+						+ " from "+테이블명
+						+ " group by substring_index( "+날짜필드명+" , ' ' , 1 )";
+			try {
+				ps = con.prepareStatement(sql);
+				rs = ps.executeQuery();
+				while( rs.next() ) {
+					map.put( rs.getString(1) , rs.getInt(2) );
+					// 결과의 해당 레코드의 첫번째필드[날짜]   , 두번째 필드[가입자수] 
+				}
+				return map;
+			}catch( Exception e ) {} return null;
+		}
+	
+		// 11. 카테고리별 개수 
+		public Map<String, Integer> countcategory() {
+			Map<String, Integer> map = new HashMap<>();
+			String sql ="select pcategory , count(*) "
+					+ " from product "
+					+ " group by pcategory";
+			try {
+				ps = con.prepareStatement(sql);
+				rs = ps.executeQuery();
+				while( rs.next() ) {
+					map.put( rs.getString(1) , rs.getInt(2) );
+				}
+				return map;
+			}catch( Exception e ) {} return null;
+		}
+	
+	
+	public void save(String id) {
+		try {
+			FileOutputStream fileOutputStream = new FileOutputStream("D:/java/로그인로그.txt");
+			for(Loginlog temp : Loginlog.loginlog) {
+				String wr = temp.getId() + "," + "\n";
+				fileOutputStream.write(wr.getBytes());
+			}
+		} catch (Exception e) {System.out.println("loginlog save 실패");}		
+	}
 
+	
+	public void load() {
+		try {
+			FileInputStream fileInputStream = new FileInputStream("D:/java/로그인로그.txt");
+			byte[] bytes = new byte[1024];
+			fileInputStream.read(bytes);
+			String read = new String(bytes);
+			String[] file = read.split("\n");		
+			int i = 0 ;
+			for(String temp : file) {
+				if(i+1 == file.length){
+					break;
+				}
+				String[] 필드목록 = temp.split(",");
+				Loginlog log = new Loginlog(필드목록[0], 필드목록[1]);
+				Loginlog.loginlog.add(log);
+				i++;
+			}
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
+	
+	
+	
+	
+	
+//	// 날짜별 회원가입자 수 반환
+//	public Map<String, Integer> datetotal(){
+//		Map<String, Integer> map = new HashMap<>();
+//		String  sql = "select msince, count(*) from member group by msince";
+//		try {
+//			ps = con.prepareStatement(sql);
+//			rs = ps.executeQuery();
+//			while(rs.next()) {
+//				map.put(rs.getString(1), rs.getInt(2));
+//			}
+//			return map;
+//		} catch (Exception e) {	}
+//		return null;
+//	}
+//	
+//	// 날짜별로 게시물 등록 수 반환
+//	// 인수 테이블명 / 날짜별 레코드 전체 개수 반환
+//	public Map<String, Integer> datetotal2(){
+//		Map<String, Integer> map = new HashMap<String, Integer>();
+//		String sql = "SELECT substring_index(bdate,' ', 1 ) ,count(*)  FROM board group by substring_index(bdate, ' ', 1) ";
+//						// 날짜랑 시간이 같이 존재하기 때문에 날짜랑 시간을 분리
+//		try {
+//			ps = con.prepareStatement(sql);
+//			rs = ps.executeQuery();
+//			while(rs.next()) {
+//				map.put(rs.getString(1), rs.getInt(2));
+//			}
+//			return map;
+//		} catch (Exception e) {}
+//		return null;
+//	}
+//	
+//	// 날짜별로 제품 등록 수 반환
+//		public Map<String, Integer> datetotal3(){
+//			Map<String, Integer> map = new HashMap<String, Integer>();
+//			String sql = "SELECT substring_index(pdate,' ', 1 ) ,count(*)  FROM product group by substring_index(pdate, ' ', 1) ";
+//							// 날짜랑 시간이 같이 존재하기 때문에 날짜랑 시간을 분리
+//			try {
+//				ps = con.prepareStatement(sql);
+//				rs = ps.executeQuery();
+//				while(rs.next()) {
+//					map.put(rs.getString(1), rs.getInt(2));
+//				}
+//				return map;
+//			} catch (Exception e) {}
+//			return null;
+//		}
+		
+		
+}
 
 
 

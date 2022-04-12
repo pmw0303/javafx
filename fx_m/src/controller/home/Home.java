@@ -50,8 +50,22 @@ public class Home implements Initializable {
 	private Label lblproduct4;
 	@FXML
 	private BorderPane borderpane;
+	@FXML
+	private Label lblrecord;
+	@FXML
+	private Label lblchatting;
 	
 	public static String category;
+	
+	@FXML// 통계 레이블을 클릭했을때 이벤트
+	public void accchatting( MouseEvent e ) {
+		loadpage("/view/chatting.fxml"); 		
+	}
+	
+	@FXML// 통계 레이블을 클릭했을때 이벤트
+	public void accrecord( MouseEvent e ) {
+		loadpage("/view/record.fxml"); 		
+	}
 	
 	@FXML// 남성의류 레이블을 클릭했을때 이벤트
 	public void accproduct1( MouseEvent e ) {

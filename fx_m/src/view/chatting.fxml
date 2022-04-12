@@ -17,15 +17,15 @@
             <Font size="34.0" />
          </font>
       </Label>
-      <Line endX="172.0" layoutX="133.0" layoutY="84.0" startX="-100.0" stroke="#0873ff" strokeWidth="5.0" />
-      <Button fx:id="btnconnect" layoutX="74.0" layoutY="121.0" mnemonicParsing="false" onAction="#connect" prefHeight="42.0" prefWidth="438.0" style="-fx-background-color: #0873ff;" text="채팅방 입장" textFill="WHITE">
+      <Line endX="172.0" layoutX="133.0" layoutY="84.0" startX="-100.0" strokeWidth="5.0" />
+      <Button fx:id="btnconnect" layoutX="74.0" layoutY="121.0" mnemonicParsing="false" onAction="#connect" prefHeight="42.0" prefWidth="438.0" style="-fx-background-color: #000000;" text="채팅방 입장" textFill="WHITE">
          <font>
             <Font size="15.0" />
          </font>
       </Button>
       <TextArea fx:id="txtcontent" layoutX="74.0" layoutY="172.0" prefHeight="439.0" prefWidth="438.0" />
       <TextField fx:id="txtmsg" layoutX="74.0" layoutY="621.0" onAction="#msg" prefHeight="42.0" prefWidth="325.0" />
-      <Button fx:id="btnsend" layoutX="410.0" layoutY="621.0" mnemonicParsing="false" onAction="#send" prefHeight="42.0" prefWidth="102.0" style="-fx-background-color: #0873ff;" text="전송" textFill="WHITE">
+      <Button fx:id="btnsend" layoutX="410.0" layoutY="621.0" mnemonicParsing="false" onAction="#send" prefHeight="42.0" prefWidth="102.0" style="-fx-background-color: #000000;" text="전송" textFill="WHITE">
          <font>
             <Font size="15.0" />
          </font>
@@ -38,7 +38,7 @@
         </columns>
       </TableView>
       <TextField fx:id="txtroomname" layoutX="557.0" layoutY="121.0" prefHeight="42.0" prefWidth="195.0" promptText="방 이름" />
-      <Button fx:id="btnadd" layoutX="780.0" layoutY="121.0" mnemonicParsing="false" onAction="#add" prefHeight="42.0" prefWidth="102.0" style="-fx-background-color: #0873ff;" text="방 개설" textFill="WHITE">
+      <Button fx:id="btnadd" layoutX="780.0" layoutY="121.0" mnemonicParsing="false" onAction="#add" prefHeight="42.0" prefWidth="102.0" style="-fx-background-color: #000000;" text="방 개설" textFill="WHITE">
          <font>
             <Font size="15.0" />
          </font>
