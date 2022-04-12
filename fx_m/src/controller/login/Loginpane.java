@@ -76,7 +76,7 @@ public class Loginpane implements Initializable {
     		Main.instance.loadpage("/view/home/home.fxml");
     		// * 테스트 
     		lblconfirm.setText("로그인성공");
-    		MemberDao.memberDao.save(id);
+    		
     	}else {
     		lblconfirm.setText("동일한 회원정보가 없습니다.");
     	}

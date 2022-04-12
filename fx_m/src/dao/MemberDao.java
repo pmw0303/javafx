@@ -262,40 +262,45 @@ public class MemberDao { // DB 접근객체
 			}catch( Exception e ) {} return null;
 		}
 	
+		
+		
+		
+		
+		
 	
-	public void save(String id) {
-		try {
-			FileOutputStream fileOutputStream = new FileOutputStream("D:/java/로그인로그.txt");
-			for(Loginlog temp : Loginlog.loginlog) {
-				String wr = temp.getId() + "," + "\n";
-				fileOutputStream.write(wr.getBytes());
-			}
-		} catch (Exception e) {System.out.println("loginlog save 실패");}		
-	}
-
-	
-	public void load() {
-		try {
-			FileInputStream fileInputStream = new FileInputStream("D:/java/로그인로그.txt");
-			byte[] bytes = new byte[1024];
-			fileInputStream.read(bytes);
-			String read = new String(bytes);
-			String[] file = read.split("\n");		
-			int i = 0 ;
-			for(String temp : file) {
-				if(i+1 == file.length){
-					break;
-				}
-				String[] 필드목록 = temp.split(",");
-				Loginlog log = new Loginlog(필드목록[0], 필드목록[1]);
-				Loginlog.loginlog.add(log);
-				i++;
-			}
-			
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
-	}
+//	public void save() {
+//		try {
+//			FileOutputStream fileOutputStream = new FileOutputStream("D:/java/로그인로그.txt");
+//			for(Loginlog temp : Loginlog.loginlog) {
+//				String wr = temp.getId() + "," + "\n";
+//				fileOutputStream.write(wr.getBytes());
+//			}
+//		} catch (Exception e) {System.out.println("loginlog save 실패");}		
+//	}
+//
+//	
+//	public void load() {
+//		try {
+//			FileInputStream fileInputStream = new FileInputStream("D:/java/로그인로그.txt");
+//			byte[] bytes = new byte[1024];
+//			fileInputStream.read(bytes);
+//			String read = new String(bytes);
+//			String[] file = read.split("\n");		
+//			int i = 0 ;
+//			for(String temp : file) {
+//				if(i+1 == file.length){
+//					break;
+//				}
+//				String[] 필드목록 = temp.split(",");
+//				Loginlog log = new Loginlog(필드목록[0], 필드목록[1]);
+//				Loginlog.loginlog.add(log);
+//				i++;
+//			}
+//			
+//		} catch (Exception e) {
+//			// TODO: handle exception
+//		}
+//	}
 	
 	
 	
