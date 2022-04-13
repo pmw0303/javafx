@@ -76,6 +76,11 @@ public class Loginpane implements Initializable {
     		Main.instance.loadpage("/view/home/home.fxml");
     		// * 테스트 
     		lblconfirm.setText("로그인성공");
+    		boolean result2 = MemberDao.memberDao.pointplus();
+    		if(result2) {
+    			Login.member = MemberDao.memberDao.getmember(id);
+    			Main.instance.loadpage("/view/home/home.fxml");
+    		}
     		
     	}else {
     		lblconfirm.setText("동일한 회원정보가 없습니다.");
