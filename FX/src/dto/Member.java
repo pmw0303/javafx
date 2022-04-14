@@ -34,36 +34,36 @@ public class Member {
 		this.mcince = mcince;
 	}
 	
-	public static void sendmail( String ¹Ş´Â»ç¶÷ÀÌ¸ŞÀÏ , String ³»¿ë ) {
-		//1. º¸³»´Â »ç¶÷ Á¤º¸
-		String º¸³»´Â»ç¶÷ÀÌ¸ŞÀÏ = "pmw0303@naver.com"; 
-		String º¸³»´Â»ç¶÷ÀÌ¸ŞÀÏºñ¹Ğ¹øÈ£ = "dkdldb11"; 
-		//2. È£½ºÆ® ¼³Á¤ [ ³×ÀÌ¹ö±âÁØ = °íÁ¤ ]
-		Properties properties = new Properties(); // ÄÃ·º¼ÇÇÁ·¹ÀÓ¿öÅ© [ mapÄÃ·º¼Ç ]
-		properties.put("mail.smtp.host","smtp.naver.com"); // È£½ºÆ® ÁÖ¼Ò 
-		properties.put("mail.smtp.port", 587);	// È£½ºÆ® Æ÷Æ®¹øÈ£
-		properties.put("mail.smtp.auth", "true"); // º¸³»´Â»ç¶÷ÀÌ¸ŞÀÏ ÀÎÁõ
-		properties.put("mail.smtp.ssl.protocols", "TLSv1.2"); // *º¸¾È ¿¬°á ¹öÀü ¼³Á¤
+	public static void sendmail( String ë°›ëŠ”ì‚¬ëŒì´ë©”ì¼ , String ë‚´ìš© ) {
+		//1. ë³´ë‚´ëŠ” ì‚¬ëŒ ì •ë³´
+		String ë³´ë‚´ëŠ”ì‚¬ëŒì´ë©”ì¼ = "pmw0303@naver.com"; 
+		String ë³´ë‚´ëŠ”ì‚¬ëŒì´ë©”ì¼ë¹„ë°€ë²ˆí˜¸ = ""; 
+		//2. í˜¸ìŠ¤íŠ¸ ì„¤ì • [ ë„¤ì´ë²„ê¸°ì¤€ = ê³ ì • ]
+		Properties properties = new Properties(); // ì»¬ë ‰ì…˜í”„ë ˆì„ì›Œí¬ [ mapì»¬ë ‰ì…˜ ]
+		properties.put("mail.smtp.host","smtp.naver.com"); // í˜¸ìŠ¤íŠ¸ ì£¼ì†Œ 
+		properties.put("mail.smtp.port", 587);	// í˜¸ìŠ¤íŠ¸ í¬íŠ¸ë²ˆí˜¸
+		properties.put("mail.smtp.auth", "true"); // ë³´ë‚´ëŠ”ì‚¬ëŒì´ë©”ì¼ ì¸ì¦
+		properties.put("mail.smtp.ssl.protocols", "TLSv1.2"); // *ë³´ì•ˆ ì—°ê²° ë²„ì „ ì„¤ì •
 		
-		// 3. ÀÎÁõÃ³¸® [ Session : javax.mail ÆĞÅ°Áö ] 
-			// Session.getDefaultInstance( ¼³Á¤°´Ã¼ , ÀÎÁõ°´Ã¼ ) 
+		// 3. ì¸ì¦ì²˜ë¦¬ [ Session : javax.mail íŒ¨í‚¤ì§€ ] 
+			// Session.getDefaultInstance( ì„¤ì •ê°ì²´ , ì¸ì¦ê°ì²´ ) 
 		Session session = Session.getDefaultInstance( properties , new Authenticator() {
-			@Override // ¿À¹ö¶óÀÌµù // º¸³»´Â»ç¶÷ÀÇ ÀÌ¸ŞÀÏÁÖ¼Ò,ºñ¹Ğ¹øÈ£ ÀÎÁõ ÇØÁÖ´Â ¸Ş¼Òµå ±¸Çö
+			@Override // ì˜¤ë²„ë¼ì´ë”© // ë³´ë‚´ëŠ”ì‚¬ëŒì˜ ì´ë©”ì¼ì£¼ì†Œ,ë¹„ë°€ë²ˆí˜¸ ì¸ì¦ í•´ì£¼ëŠ” ë©”ì†Œë“œ êµ¬í˜„
 			protected PasswordAuthentication getPasswordAuthentication() { 
-				return new PasswordAuthentication(º¸³»´Â»ç¶÷ÀÌ¸ŞÀÏ, º¸³»´Â»ç¶÷ÀÌ¸ŞÀÏºñ¹Ğ¹øÈ£);
+				return new PasswordAuthentication(ë³´ë‚´ëŠ”ì‚¬ëŒì´ë©”ì¼, ë³´ë‚´ëŠ”ì‚¬ëŒì´ë©”ì¼ë¹„ë°€ë²ˆí˜¸);
 			}
 		});
-		// 4. ¸ŞÀÏ º¸³»±â 
+		// 4. ë©”ì¼ ë³´ë‚´ê¸° 
 		try {
-			MimeMessage message = new MimeMessage(session);		// Mime ÇÁ·ÎÅäÄİ : ÀüÀÚ¿ìÆí Ç¥ÁØ Æ÷¸ä[Çü½Ä]
-			message.setFrom( new InternetAddress(º¸³»´Â»ç¶÷ÀÌ¸ŞÀÏ) ); // º¸³»´Â»ç¶÷ 
-			message.addRecipient( Message.RecipientType.TO , new InternetAddress(¹Ş´Â»ç¶÷ÀÌ¸ŞÀÏ) ); // ¹Ş´Â»ç¶÷ÀÌ¸ŞÀÏ
-			// ³»¿ë 
-			message.setSubject("È¸¿ø´ÔÀÇ ÆĞ½º¿öµå Ã£±â"); // ¸ŞÀÏ Àü¼Û 
-			message.setText("È¸¿ø´ÔÀÇ ºñ¹Ğ¹øÈ£ : " + ³»¿ë );
-			// Àü¼Û
+			MimeMessage message = new MimeMessage(session);		// Mime í”„ë¡œí† ì½œ : ì „ììš°í¸ í‘œì¤€ í¬ë©§[í˜•ì‹]
+			message.setFrom( new InternetAddress(ë³´ë‚´ëŠ”ì‚¬ëŒì´ë©”ì¼) ); // ë³´ë‚´ëŠ”ì‚¬ëŒ 
+			message.addRecipient( Message.RecipientType.TO , new InternetAddress(ë°›ëŠ”ì‚¬ëŒì´ë©”ì¼) ); // ë°›ëŠ”ì‚¬ëŒì´ë©”ì¼
+			// ë‚´ìš© 
+			message.setSubject("íšŒì›ë‹˜ì˜ íŒ¨ìŠ¤ì›Œë“œ ì°¾ê¸°"); // ë©”ì¼ ì „ì†¡ 
+			message.setText("íšŒì›ë‹˜ì˜ ë¹„ë°€ë²ˆí˜¸ : " + ë‚´ìš© );
+			// ì „ì†¡
 			Transport.send(message);
-		}catch (Exception e) { System.out.println("¸ŞÀÏÀü¼Û½ÇÆĞ "  +e);}
+		}catch (Exception e) { System.out.println("ë©”ì¼ì „ì†¡ì‹¤íŒ¨ "  +e);}
 	}
 
 	public int getMnum() {
